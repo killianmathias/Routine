@@ -22,7 +22,13 @@ struct HomeView: View {
         NavigationStack{
             List(viewModel.dailyHabits){ dailyHabit in
                 ZStack(alignment: .leading){
-                    Color(dailyHabit.completion == dailyHabit.habit!.objective ? .green : .blue)
+                    UnevenRoundedRectangle(
+                        topLeadingRadius: 0,
+                        bottomLeadingRadius: 0,
+                        bottomTrailingRadius: dailyHabit.completion < dailyHabit.habit!.objective ? 30 : 0,
+                        topTrailingRadius: dailyHabit.completion < dailyHabit.habit!.objective ? 30 : 0
+                    )
+                    .foregroundStyle(dailyHabit.completion == dailyHabit.habit!.objective ? .green : .blue)
                         .opacity(0.4)
                         .scaleEffect(
                             x: CGFloat(dailyHabit.completion) / CGFloat(dailyHabit.habit!.objective),
@@ -32,7 +38,7 @@ struct HomeView: View {
                         .animation(.easeInOut, value: dailyHabit.completion)
                         .ignoresSafeArea()
                     HStack{
-                        VStack{
+                        VStack(alignment: .leading){
                             Text(dailyHabit.habit!.name!)
                                 .font(.headline)
                             Text(dailyHabit.habit!.frequency == 1 ? "Tous les jours" : "Autre fréquence")
@@ -59,7 +65,7 @@ struct HomeView: View {
                                 onIncrement: {
                                     viewModel
                                         .incrementHabit(id: dailyHabit.id!)
-                                    print("On incrémente")
+                                    
                                 },
                                 onDecrement:{ viewModel.decrementHabit(id: dailyHabit.id!) }
                             ){
@@ -67,8 +73,9 @@ struct HomeView: View {
                             }
                         }
                     }
-                    
+                    .padding()
                 }
+                .listRowInsets(EdgeInsets())
             }
             .toolbar{
                 Button{
@@ -81,6 +88,7 @@ struct HomeView: View {
                 SheetView(viewModel: viewModel)
             }
             .navigationTitle("Routine")
+            .listStyle(.plain)
         }
         
     }

@@ -14,12 +14,13 @@ class ViewModel : ObservableObject{
     @Published var dailyHabits : [DailyHabitEntity]
     let context : NSManagedObjectContext
     
-    func addHabit(name: String, frequency : Int16, objective : Int16){
+    func addHabit(name: String, frequency : Int16, objective : Int16, type : String){
         let newHabit = HabitEntity(context: self.context)
         newHabit.name = name
         newHabit.frequency = frequency
         newHabit.objective = objective
         newHabit.id = UUID()
+        newHabit.type = type
         habits.append(newHabit)
         addHabitForToday(habit: newHabit)
        

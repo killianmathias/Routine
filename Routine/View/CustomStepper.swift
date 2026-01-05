@@ -7,8 +7,8 @@
 import SwiftUI
 
 struct CustomStepper: View{
-    @Binding var value : Int16
-    let step : Int16
+    @Binding var value : Double
+    let step : Double
     let unit : String
     var body : some View{
         Stepper(
